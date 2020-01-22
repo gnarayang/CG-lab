@@ -1,0 +1,2 @@
+# CG-lab
+Exploring OpenGL
