@@ -64,19 +64,11 @@ void display() {
   int flag = -1;
   while(true)
   {
+    
     drawCircle(xc, yc + i, r);
     clock_t start_time = clock();
     while (clock() < start_time + 5000);
     glClear(GL_COLOR_BUFFER_BIT);
-    if(yc+i-r == -100)
-    {
-      flag = 1;
-    }
-    if(yc+i+r == 100)
-    {
-      flag = -1;
-    }
-    i += flag;
   }
 }
  

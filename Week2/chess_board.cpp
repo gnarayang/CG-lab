@@ -6,39 +6,63 @@ void initGL() {
    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-void draw(double x_1, double y_1, double x_2, double y_2) {
-   double dx, dy;
-   double step;
-   double xinc, yinc;
-   dx = x_2 - x_1;
-   dy = y_2 - y_1;
-   if(abs(dx) > abs(dy))
-   {
-      step = fabs(dx);
-   }
-   else
-   {
-      step = fabs(dy);
-   }
-   xinc = dx/step;
-   yinc = dy/step;
+void draw(int x1, int y1, int x2, int y2) {
+    int dx = x2 - x1;
+    int dy = y2 - y1;
 
-   printf("x1 = %f, x2 = %f, y1 = %f, y2 = %f, dx = %f, dy = %f, step = %f, xinc = %f, yinc = %f", x_1, x_2, y_1, y_2, dx, dy, step, xinc, yinc);
+    int stepx = 1, stepy = 1;
 
-   float x = x_1;
-   float y = y_1;
-   glBegin(GL_POINTS);
-   for(int i = 0; i < step; i++)
-   {
-      // glColor3f(0.0, 1.0, 0.0);
-      glVertex2f(x, y);
-      printf("%f %f\n", round(x), round(y));
-      x += xinc;
-      y += yinc;
-   }
-   glEnd();
+    int fraction = 0, fraction_increment = 0;
 
-   glFlush();
+    if(dy < 0)
+    {
+        dy = -dy;
+        stepy = -1;
+    }
+    if(dx < 0)
+    {
+        dx = -dx;
+        stepx = -1;
+    }
+
+    glBegin(GL_POINTS);
+
+    if(dx >= dy) {
+        fraction = 2*dy - dx;
+        fraction_increment = 2*dy;
+        while(x1 <= x2)
+        {
+            x1 += stepx;
+            if(fraction >= 0)
+            {
+                y1 += stepy;
+                fraction -= 2*dx; 
+            }
+
+            fraction += fraction_increment;
+            glVertex2i(x1, y1);
+        }
+
+    } 
+    else 
+    {
+        fraction = 2*dx - dy;
+        fraction_increment = 2*dx;
+        while(y1 <= y2)
+        {
+            y1 += stepy;
+            if(fraction >= 0) 
+            {
+                x1 += stepx;
+                fraction -= 2*dy;
+            }
+            fraction += fraction_increment;
+            glVertex2i(x1, y1);
+        }
+    }
+
+    glEnd();
+    glFlush();
 }
  
 void display() {
