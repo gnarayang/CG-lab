@@ -1,8 +1,12 @@
 #include <stdio.h>
+#include <bits/stdc++.h>
 #include <GL/glut.h>
 #include <math.h>
 #include <unistd.h>
 #include <time.h>
+#include <GL/gl.h> 
+#include <GL/glu.h> 
+#include <GL/glx.h>
 
 using namespace std;
 
@@ -14,12 +18,24 @@ void initGL()
     glClearColor(0, 0, 0, 0);
 }
 
+string s = "Hello world\n";
+
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
     gluOrtho2D(-1000, 1000, -1000, 1000);
+    unsigned char s[] = "The quick god jumps over the lazy brown fox.";
+    int w;
+    w = glutBitmapLength(GLUT_BITMAP_8_BY_13, (const unsigned char*) s);
+    glRasterPos2f(0., 0.);
+    float x = .5; /* Centre in the middle of the window */
+    glRasterPos2f(x - (float) 350 / 2, 0.);
+    int len = 50;
+    for (int i = 0; i < len; i++) {
+        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, s[i]);
+    }
     glBegin(GL_LINES);
         glVertex2d(x_1, y_1);
         glVertex2d(x_2, y_2);
@@ -129,7 +145,7 @@ int main(int argc, char **argv)
         }
     }
     glutInit(&argc, argv);
-    glutCreateWindow("Triangle clipping algorithm");
+    glutCreateWindow("Line clipping algorithm");
     glutInitWindowPosition(0, 0);
     glutInitWindowSize(320, 320);
     glutDisplayFunc(display);
